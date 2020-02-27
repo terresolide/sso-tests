@@ -28,7 +28,11 @@ class Config
      */
     const CLIENT_SECRET = 'your-client-secret';
 
-
+    /**
+     * Base url
+     */
+    const BASE_URL = 'your-base-url';
+    
     /**
      * Show or hide error messages on screen
      * @var boolean

@@ -1,11 +1,13 @@
 {
     "require": {
-        "twig/twig": "~2.0"
+        "twig/twig": "~2.0",
+        "phpseclib/phpseclib": "^2.0"
     },
     "autoload": {
         "psr-4": {
              "Core\\": "Core/",
              "App\\": "App/"
-        }
+        },
+        "classmap": ["lib/OpenIDConnectClient.php"]
     }
 }

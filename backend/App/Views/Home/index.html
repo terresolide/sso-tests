@@ -3,7 +3,10 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
+    <div style="text-align:right;margin:1Opx;">
+       <a href="{{ constant('\\App\\Config::BASE_URL')}}/logout">logout</a>
+     </div>
 
-    <h1>Welcome</h1>
+    <h1>Welcome {{ email }}</h1>
 
 {% endblock %}
