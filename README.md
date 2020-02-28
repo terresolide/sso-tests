@@ -26,10 +26,5 @@
 The vuejs app is the frontend of the php application
 The backend manage the login and logout.
 
-## branch service
-
-The vuejs app is an independent application, and the php application is only a service for it.
-The 2 applications must be registered to the sso service.
-
 
 

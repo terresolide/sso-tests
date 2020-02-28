@@ -12,61 +12,59 @@ use \App\Config as Config;
  */
 class Home extends \Core\Controller
 {
-    private $oidc;
-	public function before() {
-		if (!isset($_SESSION)) {
+   
+  public function before() {
+    if (!isset($_SESSION)) {
             @session_start();
         }
-		// force login
-		if (!isset($_SESSION['User'])) {
-			$this->login();
-		}
-	}
-	
-    /**
-     * Show the index page
-     *
-     * @return void
-     */
-    public function indexAction()
-    {
-    	$user = unserialize($_SESSION['User']);
-        View::renderTemplate('Home/index.html', array('email' => $user['email']));
+    // force login
+    if (!isset($_SESSION['User'])) {
+      $this->login();
     }
-    public function logoutAction()
-    {
-    	// logout of all keycloak app
-        unset($_SESSION['User']);
-    	$logoutUrl = Config::PROVIDER_URL . '/protocol/openid-connect/logout';
-    	$logoutUrl .= '?redirect_uri=' . urlencode(Config::BASE_URL);
-    	header('Location: ' . $logoutUrl );
-    	
-    }
-    private function login () {
-		$oidc = new \OpenIDConnectClient(
-		    	Config::PROVIDER_URL,
-		    	Config::CLIENT_ID,
-		    	Config::CLIENT_SECRET,
-		    	Config::BASE_URL,
-		    	Config::BASE_URL . '/unauthorized'
-		    );
-       // Request authentification before begin
-        $oidc->authenticate();
+  }
+  
+  /**
+   * Show the index page
+   *
+   * @return void
+   */
+  public function indexAction()
+  {
+    $user = unserialize($_SESSION['User']);
+      View::renderTemplate('Home/index.html', array('email' => $user['email']));
+  }
+  public function logoutAction()
+  {
+     // logout of all keycloak app
+     unset($_SESSION['User']);
+     $logoutUrl = Config::PROVIDER_URL . '/protocol/openid-connect/logout';
+     $logoutUrl .= '?redirect_uri=' . urlencode(Config::BASE_URL);
+     header('Location: ' . $logoutUrl );
+   }
+   private function login () {
+     $oidc = new \OpenIDConnectClient(
+         Config::PROVIDER_URL,
+         Config::CLIENT_ID,
+         Config::CLIENT_SECRET,
+         Config::BASE_URL,
+         Config::BASE_URL . '/unauthorized'
+      );
+      // Request authentification before begin
+      $oidc->authenticate();
    
-        // Check Keycloak authorization
-        $oidc->checkKeycloakAuthorization();
+      // Check Keycloak authorization
+      $oidc->checkKeycloakAuthorization();
 
-        // get user info:
-        $user = array (
-    	  'username' =>  $oidc->requestUserInfo('preferred_username'),
-    	  'firstname'=>  $oidc->requestUserInfo('firstname'),
-          'lastname' => $oidc->requestUserInfo('lastname'),
-          'email' => $oidc->requestUserInfo('email'),
-          'displayName' => $oidc->requestUserInfo('firstname'). ' ' . $oidc->requestUserInfo('lastname'),
-          'role' => $client_roles = $oidc->requestUserInfo('client-roles')
-         );
-        // register in session
-        $_SESSION['User'] = serialize($user);
-	}
-
+      // get user info:
+      $user = array (
+        'username' =>  $oidc->requestUserInfo('preferred_username'),
+        'firstname'=>  $oidc->requestUserInfo('firstname'),
+        'lastname' =>  $oidc->requestUserInfo('lastname'),
+        'email'    =>  $oidc->requestUserInfo('email'),
+        'displayName' => $oidc->requestUserInfo('firstname') . ' ' . $oidc->requestUserInfo('lastname'),
+        'role' =>      $oidc->requestUserInfo('client-roles')
+       );
+      // register in session
+      $_SESSION['User'] = serialize($user);
+  }
 }

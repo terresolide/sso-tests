@@ -13,7 +13,7 @@ pre
 **/RemoteSystemsTempFiles
 **/.project
 **/.settings
-gdm-back/App/Config.php
-gdm-back/public/.htaccess
-doc/html
+backend/App/Config.php
+backend/public/.htaccess
+frontend/config/sso.js
 

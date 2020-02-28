@@ -1,0 +1,42 @@
+{
+  "name": "sso-tests",
+  "version": "0.0.1",
+  "description": "Test sso",
+  "production": {
+    "url": "https://cdn.jsdelivr.net/gh/terresolide"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/terresolide/sso-tests.git"
+  },
+  "keywords": [
+    "vue.js"
+  ],
+  "private": false,
+  "author": "epointal",
+  "license": "GNU",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --progress --open --hot --inline",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+  },
+  "dependencies": {
+    "keycloak-js": "^9.0.0",
+    "vue": "^2.6.11",
+    "vuex": "^3.1.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^6.0.0",
+    "babel-preset-env": "^1.7.0",
+    "clean-webpack-plugin": "^0.1.19",
+    "cross-env": "^3.0.0",
+    "css-loader": "^3.4.2",
+    "exports-loader": "^0.6.4",
+    "file-loader": "^0.9.0",
+    "style-loader": "^0.18.2",
+    "vue-loader": "^12.1.0",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^2.6.1",
+    "webpack-dev-server": "^2.11.5"
+  }
+}
