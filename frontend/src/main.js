@@ -1,5 +1,3 @@
-require("exports-loader?!./l.min.js")
-
 import Vue from 'vue';
 
 // to manage user
