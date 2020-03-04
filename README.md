@@ -7,20 +7,19 @@
  * **backend**:  a php application which redirect to login page when begin
 
 
-@todo:
 ## branch check-sso
 
 2 different and independent tests:
- * **frontend**: a single page application which only test if user is logged
- * **backend**: a php application which only test if user is logged
+ * **frontend**: a single page application which only test if user is logged and with a button to login
+ * **backend**: a php application which only test if user is logged and with a button to login
 
 
-## branch login-window
+## branch login-window (@todo)
 
-2 different and independent tests:
+one test
  * **frontend**: a single page application  which open a window to log in
 
-## branch service
+## branch service (@todo)
 
 The vuejs app is the frontend of the php application
 The backend manage the login and logout.
