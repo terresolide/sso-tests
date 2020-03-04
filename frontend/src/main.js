@@ -17,7 +17,8 @@ export let keycloak = Keycloak(ssoOptions)
 import App from './App.vue'
 
 keycloak.init({
-  onLoad: 'login-required',
+  // to only check if user is logged
+  onLoad: 'check-sso',
   promiseType: 'native'
 }).then(function (authenticated) {
   if (authenticated) {
@@ -25,8 +26,7 @@ keycloak.init({
     if (keycloak.tokenParsed) {
       var username = keycloak.tokenParsed.preferred_username
       var email = keycloak.tokenParsed.email
-    
-      // record user
+      // on enregistre l'utilisateur
       let user = { token: keycloak.token, email: email, username: username }
       store.commit('user/set', user)
       console.log('USER AUTHENTICATED')
@@ -35,7 +35,7 @@ keycloak.init({
     console.log('USER NOT AUTHENTICATED')
   } 
   // to automatically add header to http request be careful
-  // it add Authorization header to all POST request
+  // it add Authorization header to all requests
   // you must add the parameter simple=true
   // to your request if you don't want the header Authorization
   Vue.http.interceptors.push(function(request, next) {

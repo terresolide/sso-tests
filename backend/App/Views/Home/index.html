@@ -3,10 +3,14 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-    <div style="text-align:right;margin:1Opx;">
+
+   {% if email is empty %}
+      <h1>You must log</h1>
+      <a href="{{ constant('\\App\\Config::BASE_URL')}}/login">Login with sso</a>
+   {% else %}
+     <div style="text-align:right;margin:1Opx;">
        <a href="{{ constant('\\App\\Config::BASE_URL')}}/logout">logout</a>
      </div>
-
     <h1>Welcome {{ email }}</h1>
-
+   {% endif %}
 {% endblock %}
