@@ -1,4 +1,7 @@
 import Vue from 'vue';
+// To request
+import VueResource from 'vue-resource'
+Vue.use(VueResource)
 
 // to manage user
 import Vuex from 'vuex'
@@ -21,18 +24,39 @@ keycloak.init({
     // Read user informations
     if (keycloak.tokenParsed) {
       var username = keycloak.tokenParsed.preferred_username
-     // var name = keycloak.tokenParsed.given_name
-     // var family_name = keycloak.tokenParsed.family_name
-     var email = keycloak.tokenParsed.email
+      var email = keycloak.tokenParsed.email
     
-      // POUR LES APPLICATIONS CATALOGUE AERIS
+      // record user
       let user = { token: keycloak.token, email: email, username: username }
       store.commit('user/set', user)
       console.log('USER AUTHENTICATED')
     }
   } else {
     console.log('USER NOT AUTHENTICATED')
-  }  
+  } 
+  // to automatically add header to http request be careful
+  // it add Authorization header to all POST request
+  // you must add the parameter simple=true
+  // to your request if you don't want the header Authorization
+  Vue.http.interceptors.push(function(request, next) {
+    if (keycloak.token && !request.simple) {
+      request.headers.set('Authorization', 'Bearer ' + keycloak.token);
+      request.headers.set('Accept', 'application/json');
+    }
+      next() ;
+  })
+  // Update access token all 3'30"
+ function updateSSoToken() {
+    setTimeout(function () {
+      keycloak.updateToken(200000).then(function(token) {
+        store.commit('user/setToken', keycloak.token)
+      }),
+      updateSSoToken();
+      }, 200000);
+  }
+  updateSSoToken();
+
+  // launch the app
   new Vue({
     el: '#app',
     store:store,

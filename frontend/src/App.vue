@@ -16,6 +16,9 @@ export default {
   computed: {
 	  email () {
 		  return this.$store.getters['user/email']
+	  },
+	  token () {
+		  return this.$store.getters['user/token']
 	  }
   },
   methods: {

@@ -4,11 +4,19 @@
 
 ## install and test
 
-``` bash
 # install dependencies
+
+``` bash
 npm install
+```
+
+# configure
+
+Edit the file `src/config/sso.js` to configure with your sso 
 
 # serve with hot reload at localhost:8080
-npm run dev
 
+``` bash
+npm run dev
+```
 

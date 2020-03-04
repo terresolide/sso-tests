@@ -31,7 +31,7 @@ class Home extends \Core\Controller
   public function indexAction()
   {
     $user = unserialize($_SESSION['User']);
-      View::renderTemplate('Home/index.html', array('email' => $user['email']));
+    View::renderTemplate('Home/index.html', array('email' => $user['email']));
   }
   public function logoutAction()
   {
@@ -40,8 +40,8 @@ class Home extends \Core\Controller
      $logoutUrl = Config::PROVIDER_URL . '/protocol/openid-connect/logout';
      $logoutUrl .= '?redirect_uri=' . urlencode(Config::BASE_URL);
      header('Location: ' . $logoutUrl );
-   }
-   private function login () {
+  }
+  private function login () {
      $oidc = new \OpenIDConnectClient(
          Config::PROVIDER_URL,
          Config::CLIENT_ID,
@@ -56,15 +56,9 @@ class Home extends \Core\Controller
       $oidc->checkKeycloakAuthorization();
 
       // get user info:
-      $user = array (
-        'username' =>  $oidc->requestUserInfo('preferred_username'),
-        'firstname'=>  $oidc->requestUserInfo('firstname'),
-        'lastname' =>  $oidc->requestUserInfo('lastname'),
-        'email'    =>  $oidc->requestUserInfo('email'),
-        'displayName' => $oidc->requestUserInfo('firstname') . ' ' . $oidc->requestUserInfo('lastname'),
-        'role' =>      $oidc->requestUserInfo('client-roles')
-       );
+      $user =  $oidc->requestUserInfo();
+
       // register in session
-      $_SESSION['User'] = serialize($user);
+      $_SESSION['User'] = serialize((array)$user);
   }
 }
