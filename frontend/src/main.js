@@ -3,10 +3,12 @@ import Vue from 'vue';
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
-// to manage user
+// to manage user and api 
 import Vuex from 'vuex'
 Vue.use(Vuex)
-import store from './store'
+import apiConfig from '../config/api'
+import makeStore from './store'
+let store = makeStore(apiConfig)
 
 // for sso authentication
 import Keycloak from 'keycloak-js'
@@ -17,7 +19,7 @@ export let keycloak = Keycloak(ssoOptions)
 import App from './App.vue'
 
 keycloak.init({
-  onLoad: 'login-required',
+  onLoad: 'check-sso',
   promiseType: 'native'
 }).then(function (authenticated) {
   if (authenticated) {
