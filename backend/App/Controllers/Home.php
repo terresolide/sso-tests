@@ -19,7 +19,7 @@ class Home extends \Core\Controller
         }
     // force login
     if (!isset($_SESSION['User'])) {
-      $this->login();
+      $this->login(); 
     }
   }
   

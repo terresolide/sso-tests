@@ -38,7 +38,7 @@ class Error
     {
         // Code is 404 (not found) or 500 (general error)
         $code = $exception->getCode();
-        if ($code != 404) {
+        if ($code != 404 & $code != 403) {
             $code = 500;
         }
         http_response_code($code);

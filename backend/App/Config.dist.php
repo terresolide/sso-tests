@@ -14,7 +14,7 @@ class Config
      * SSO Provider url
      * @var string
      */
-    const PROVIDER_URL = 'your-sso-provider-url';
+    const PROVIDER_URL = '[your-sso-provider-url]/auth/realms/[your-realm]';
 
     /**
      * SSO Client ID 
@@ -37,5 +37,5 @@ class Config
      * Show or hide error messages on screen
      * @var boolean
      */
-    const SHOW_ERRORS = true;
+    const SHOW_ERRORS = false;
 }
