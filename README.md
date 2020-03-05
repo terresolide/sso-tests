@@ -19,10 +19,12 @@
 one test
  * **frontend**: a single page application  which open a window to log in
 
-## branch service (@todo)
+## branch service (@doing)
 
-The vuejs app is the frontend of the php application
-The backend manage the login and logout.
+* The vuejs app is the frontend 
+* The frontend manage the login and logout.
+* the backend is a download service (api rest) 
+
 
 
 
