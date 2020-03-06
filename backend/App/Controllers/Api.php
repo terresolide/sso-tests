@@ -64,14 +64,16 @@ class Api extends \Core\Controller
   
               header("Content-type: application/octet-stream");
              // header("Content-type: text/html");
-              
+              header('Expires: 0');
+              header('Cache-Control: must-revalidate');
+              header('Pragma: public');
               // for zip file 
               // header("Content-type: archive/zip");
-               header("Content-Transfer-Encoding: binary");
+               // header("Content-Transfer-Encoding: binary");
              
               header("Content-Length: ".filesize($filepath));
               header('Content-Disposition: attachment; filename="'.$file.'"');
-              ob_end_flush();
+
               @readfile($filepath);
               exit;
           }
