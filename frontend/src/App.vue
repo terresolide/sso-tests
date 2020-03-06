@@ -8,7 +8,8 @@
       Download :
       <div><input type="button" value="Download file1" @click="download('file1')" /></div>
       <div><input type="button" value="Download file2" @click="download('file2')" /></div>
-    </div>
+      <div><input type="button" value="Connect fmt-php" @click="loginClient('formater-php')" /></div>
+       </div>
     <div v-else>
       <h1>You must log</h1>
       <input type="button" value="Login with sso" @click="login"/>
@@ -17,8 +18,12 @@
 </template>
 <script>
 import { keycloak } from './main.js'
+// import loginWindow from './login-window.vue'
 export default {
   name: 'app',
+  components: {
+	 // loginWindow
+  },
   computed: {
     email () {
       return this.$store.getters['user/email']
@@ -30,17 +35,49 @@ export default {
     	return this.$store.getters['api']
     }
   },
+  data () {
+	  return {
+		  clientId: null
+	  }
+  },
   created () {
-	  this.download('file5')
+	  
   },
   methods: {
+	  machin(code) {
+		  console.log(code)
+	  },
+    loginClient (clientId) {
+		  this.clientId = clientId
+    	// response_type=code&redirect_uri=https%3A%2F%2Fdemo.formater%2F&client_id=formater-php&nonce=07b0ab2270e91f48cfec17da5650ebcd&state=8f68d7e802efa0b8451512b83f693e16
+    	// &scope=openid
+    	var date = new Date()
+    	var parameters = {
+    			response_type: 'code',
+    			redirect_uri: window.location + '/test.html',
+    			client_id: clientId,
+    			nonce: date.getTime(),
+    			state: 'test' + date.getTime()
+    	}
+    	var ssoAuthUrl = keycloak.authServerUrl + '/realms/' + keycloak.realm + '/protocol/openid-connect/auth'
+    	 var url = ssoAuthUrl + '?' + Object.keys(parameters).map(function (prop) {
+    	        return prop + '=' + encodeURIComponent(parameters[prop])
+    	      }).join('&');
+    	console.log(url)
+     this.loginWindow = window.open(url, "login Aeris", "menubar=no, status=no, scrollbars=no, menubar=no, width=200, height=100")
+     this.loginWindow.addEventListener('message', function(event) {
+    	 console.log(event)
+    	 this.close()
+     })
+    },
     login () {
-      keycloak.login()
+    	keycloak.login()
     },
     logout () {
       keycloak.logout()
     },
     download (file) {
+  
     	var url = this.api + '/download?file=' + encodeURIComponent(file + '.txt')
     	this.$http.get(url, {responseType: 'blob'})
     	.then( function (response) {

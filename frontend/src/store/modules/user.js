@@ -30,6 +30,9 @@ module.exports = {
       if (state.user) {
         state.user.token = token
       }
+    },
+    setAppToken(state, obj) {
+    	state.user.app[obj.clientId] = obj.token
     }
   }
 }
