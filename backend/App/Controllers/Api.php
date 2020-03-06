@@ -62,18 +62,26 @@ class Api extends \Core\Controller
               // send the file
               header("Content-Description: File Transfer");
   
-              header("Content-type: application/octet-stream");
+             // header("Content-type: application/octet-stream");
              // header("Content-type: text/html");
+             // for zip file
+             //  header("Content-type: archive/zip");
+             
+             // usefull??
               header('Expires: 0');
               header('Cache-Control: must-revalidate');
               header('Pragma: public');
-              // for zip file 
-              // header("Content-type: archive/zip");
-               // header("Content-Transfer-Encoding: binary");
-             
+
+
               header("Content-Length: ".filesize($filepath));
               header('Content-Disposition: attachment; filename="'.$file.'"');
-
+              
+              // usefull for browser can read filename
+              header('Access-Control-Expose-Headers: Content-Disposition');
+              // efface tampon de sortie
+              ob_clean();
+              // vide les tampons PHP
+              flush();
               @readfile($filepath);
               exit;
           }

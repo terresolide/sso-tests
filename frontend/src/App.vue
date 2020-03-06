@@ -44,12 +44,22 @@ export default {
     	var url = this.api + '/download?file=' + encodeURIComponent(file + '.txt')
     	this.$http.get(url, {responseType: 'blob'})
     	.then( function (response) {
-        const url = window.URL.createObjectURL(response.bodyBlob);
-        const link = document.createElement('a')
-        link.href = url
-        link.setAttribute('download', file + '.txt')
-        document.body.appendChild(link)
-        link.click()
+    		 var headerDisposition = response.headers.get('Content-Disposition')
+             if (headerDisposition) {
+               console.log(headerDisposition)
+               var match = headerDisposition.match(/filename[^;\n=]*=(\\?\"|'){0,1}([^\\?\"']*)(\\?\"|'){0,1}/i)
+               console.log(match)
+               if (match) {
+                 var filename = match[2]
+               }
+              //  res = re.search("filename[^;\n=]*=(['\"])*(.*)(?(1)\1|)", string) res.group(2)
+             }
+//         const url = window.URL.createObjectURL(response.bodyBlob);
+//         const link = document.createElement('a')
+//         link.href = url
+//         link.setAttribute('download', filename)
+//         document.body.appendChild(link)
+//         link.click()
      }, function (response) {
 	    		switch (response.status) {
 	    		case 403:

@@ -3,6 +3,10 @@ import Vue from 'vue';
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
+// some custom functions
+import UtilsPlugin from './utils.js'
+Vue.use(UtilsPlugin)
+
 // to manage user and api 
 import Vuex from 'vuex'
 Vue.use(Vuex)
@@ -16,6 +20,7 @@ import ssoOptions from '../config/sso'
 
 export let keycloak = Keycloak(ssoOptions)
 
+// and now the app
 import App from './App.vue'
 
 keycloak.init({
