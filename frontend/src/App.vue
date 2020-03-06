@@ -48,6 +48,7 @@ export default {
 		  console.log(code)
 	  },
     loginClient (clientId) {
+		  // A REVOIR => UTILISER IFRAME
 		  this.clientId = clientId
     	// response_type=code&redirect_uri=https%3A%2F%2Fdemo.formater%2F&client_id=formater-php&nonce=07b0ab2270e91f48cfec17da5650ebcd&state=8f68d7e802efa0b8451512b83f693e16
     	// &scope=openid
@@ -60,15 +61,43 @@ export default {
     			state: 'test' + date.getTime()
     	}
     	var ssoAuthUrl = keycloak.authServerUrl + '/realms/' + keycloak.realm + '/protocol/openid-connect/auth'
-    	 var url = ssoAuthUrl + '?' + Object.keys(parameters).map(function (prop) {
+    	var url = ssoAuthUrl + '?' + Object.keys(parameters).map(function (prop) {
     	        return prop + '=' + encodeURIComponent(parameters[prop])
-    	      }).join('&');
+    	}).join('&');
     	console.log(url)
-     this.loginWindow = window.open(url, "login Aeris", "menubar=no, status=no, scrollbars=no, menubar=no, width=200, height=100")
+    	
+    	//POPUP POSITION
+    	var w = 500
+    	var h = 400
+    	// position relative to current window
+    	const y = window.top.outerHeight / 2 + window.top.screenY - ( h / 2);
+      const x = window.top.outerWidth / 2 + window.top.screenX - ( w / 2);
+      var options = {
+    		  toolbar: 'no',
+    		  menubar: 'no',
+    		  status: 'no',
+    		  scrollbar: 'no',
+    		  width: w,
+    		  height: h,
+    		  top: y,
+    		  left: x
+      }
+      var optionsStr = Object.keys(options).map(function (prop) {
+    	  return prop + '=' + options[prop]
+      }).join(', ')
+      console.log(optionsStr)
+     this.loginWindow = window.open(url, "login Aeris", optionsStr)
+     var self = this
      this.loginWindow.addEventListener('message', function(event) {
-    	 console.log(event)
+    	 var code = self.extractCode(event.data)
+    	 console.log(code)
     	 this.close()
      })
+    },
+    extractCode (url) {
+    	var url = new URL(url);
+    	return url.searchParams.get("code");
+    	// this.$store.commit('user/setAppToken', {clientId: clientId, token: token})
     },
     login () {
     	keycloak.login()
